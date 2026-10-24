@@ -1,0 +1,410 @@
+<title>Hayatın İçinden Defteri</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Çini Gecesi: fildişi zemin, kobalt bant, yıldız deseni, kesik daire numaralar. Tek sütun, telefona göre. */
+:root{
+  --bg:#F6F1E6; --surface:#FCFAF4; --ink:#1D2333; --muted:#5A5F6E; --line:#DCD3C2;
+  --cobalt:#1E3E8C; --cobalt-soft:#E3E8F4; --turq:#1C6B69; --coral:#B0432E;
+  --band-bg:#1E3E8C; --band-ink:#F6F1E6; --star:rgba(246,241,230,.16); --field:#FFFFFF; --ok:#1C6B69;
+  --f-display:"Fraunces", Georgia, serif; --f-body:"Figtree", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1528; --surface:#161E3A; --ink:#ECE6D8; --muted:#A3A9BA; --line:#2A3457;
+    --cobalt:#8DA7EE; --cobalt-soft:#1E2A52; --turq:#5CC0BB; --coral:#E3816A;
+    --band-bg:#1A2B66; --band-ink:#ECE6D8; --star:rgba(236,230,216,.10); --field:#10172E; --ok:#5CC0BB;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1528; --surface:#161E3A; --ink:#ECE6D8; --muted:#A3A9BA; --line:#2A3457;
+  --cobalt:#8DA7EE; --cobalt-soft:#1E2A52; --turq:#5CC0BB; --coral:#E3816A;
+  --band-bg:#1A2B66; --band-ink:#ECE6D8; --star:rgba(236,230,216,.10); --field:#10172E; --ok:#5CC0BB;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.2;text-wrap:balance;margin:0}
+p{margin:0}
+button,textarea,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--turq);outline-offset:2px}
+
+.band{position:relative;background:var(--band-bg);color:var(--band-ink);overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;background-color:var(--star);
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.3'%3E%3Crect x='14' y='14' width='20' height='20'/%3E%3Crect x='14' y='14' width='20' height='20' transform='rotate(45 24 24)'/%3E%3Ccircle cx='24' cy='24' r='4'/%3E%3C/g%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.3'%3E%3Crect x='14' y='14' width='20' height='20'/%3E%3Crect x='14' y='14' width='20' height='20' transform='rotate(45 24 24)'/%3E%3Ccircle cx='24' cy='24' r='4'/%3E%3C/g%3E%3C/svg%3E");
+  -webkit-mask-size:48px;mask-size:48px}
+.band .wrap{position:relative;padding-block:40px 34px}
+.eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.14em;color:var(--turq)}
+.band .eyebrow{color:var(--band-ink);opacity:.8}
+.band h1{font-size:clamp(2.2rem,8vw,3.2rem);margin-top:8px}
+.band .sub{font-family:var(--f-display);font-size:1.15rem;margin-top:6px;opacity:.92}
+
+.privacy{margin-top:22px;display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.privacy svg{flex:none;margin-top:3px}
+.privacy p{font-size:.95rem}
+.how{margin-top:18px;display:grid;gap:8px;padding-left:1.2em}
+.how li::marker{color:var(--turq);font-weight:700}
+
+.index{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:24px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--bg)}
+.index .wrap{display:flex;gap:8px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.index a{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;text-decoration:none;font-weight:700;font-variant-numeric:tabular-nums;border:2px solid var(--line);color:var(--muted);background:var(--surface)}
+.index a.done{border-color:var(--ok);color:var(--ok);background:var(--cobalt-soft)}
+.index .count{flex:none;align-self:center;font-size:.85rem;color:var(--muted);padding-left:6px;white-space:nowrap}
+
+main{padding-block:8px 40px}
+.vaka{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;display:grid;gap:16px;scroll-margin-top:72px}
+.vh{display:flex;gap:14px;align-items:center}
+.kd{position:relative;flex:none;width:52px;height:52px;display:grid;place-items:center;color:var(--cobalt);font-family:var(--f-display);font-weight:700;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.kd::before{content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 20deg, currentColor 0 305deg, transparent 305deg 340deg, currentColor 340deg);
+  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask:radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px))}
+.vh h2{font-size:1.25rem}
+.vh .who{font-size:.85rem;color:var(--muted);margin-top:2px}
+.state{margin-left:auto;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.state.done{border-color:var(--ok);color:var(--ok)}
+
+details.text{border-top:1px dashed var(--line);padding-top:12px}
+details.text summary{cursor:pointer;font-weight:600;color:var(--cobalt);list-style:none;display:flex;align-items:center;gap:8px}
+details.text summary::-webkit-details-marker{display:none}
+details.text summary::before{content:"";width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+details.text[open] summary::before{transform:rotate(45deg)}
+details.text .story{display:grid;gap:10px;margin-top:12px;font-family:var(--f-display);font-size:1.05rem;line-height:1.65}
+
+.q{display:grid;gap:8px}
+.q > label,.q > .lbl{font-weight:600}
+.q .hint{font-size:.85rem;color:var(--muted);font-weight:400}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;padding:12px;border:1.5px solid var(--line);border-radius:10px;background:var(--field);cursor:pointer}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .l{width:30px;height:30px;border-radius:50%;border:2px solid var(--cobalt);display:grid;place-items:center;font-weight:700;color:var(--cobalt);font-size:.9rem}
+.opt:has(input:checked){border-color:var(--cobalt);background:var(--cobalt-soft)}
+.opt:has(input:checked) .l{background:var(--cobalt);color:var(--surface)}
+.opt:has(input:focus-visible){outline:3px solid var(--turq);outline-offset:2px}
+textarea{width:100%;min-height:84px;resize:vertical;border:1.5px solid var(--line);border-radius:10px;background:var(--field);padding:10px 12px;line-height:1.5}
+textarea:focus{border-color:var(--cobalt);outline:none}
+.optional{border-top:1px dashed var(--line);padding-top:14px}
+
+.close{margin-top:28px}
+.final{margin-top:28px;background:var(--band-bg);color:var(--band-ink);border-radius:16px;padding:22px 18px;display:grid;gap:14px;position:relative;overflow:hidden}
+.final h2{font-size:1.4rem}
+.final p{font-size:.95rem;opacity:.92}
+.btn{appearance:none;border:0;border-radius:12px;padding:15px 18px;font-weight:700;font-size:1.05rem;cursor:pointer}
+.btn.primary{background:var(--band-ink);color:#14213D}
+.btn.ghost{background:transparent;color:var(--band-ink);border:1.5px solid rgba(236,230,216,.5);font-weight:600;font-size:.95rem;padding:11px 14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.msg{font-weight:600}
+#fallback{width:100%;min-height:160px;background:var(--field);color:var(--ink);border-radius:10px;font-size:.85rem}
+.confirm{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.95rem}
+.store-note{font-size:.85rem;color:var(--coral);margin-top:10px}
+footer{color:var(--muted);font-size:.8rem;padding-block:0 36px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <p class="eyebrow">GÜNCEL KAFALAR</p>
+    <h1>Hayatın İçinden</h1>
+    <p class="sub">Vaka defteri · Hekim gözüyle</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="privacy">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color:var(--turq)"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    <p><b>Cevapların yalnızca bu cihazda kalır.</b> Kimse göremez, hiçbir yere gönderilmez. Sonunda kopyaladığın metni yalnızca kendi kullandığın yapay zekâya yapıştırırsın.</p>
+  </div>
+  <ol class="how">
+    <li>İstediğin vakayı seç. Hepsini doldurman gerekmiyor.</li>
+    <li>Vakayı bir hekim gibi oku: semptomları gör, kök hastalığı teşhis et, reçeteni yaz.</li>
+    <li>Aklına ilk geleni yaz, olması gerekeni değil. Tıbbi dil bir benzetme; kimseye gerçek bir tanı konmuyor.</li>
+    <li>En sondaki tuşa bas, kopyalanan metni kendi yapay zekâna yapıştır.</li>
+  </ol>
+  <p class="store-note" id="storeNote" hidden>Bu tarayıcı cevapları kaydedemiyor. Sayfayı kapatmadan bitirmeye çalış.</p>
+</div>
+
+<nav class="index" aria-label="Vakalar">
+  <div class="wrap" id="index"></div>
+</nav>
+
+<main class="wrap" id="vakalar"></main>
+
+<div class="wrap">
+  <section class="vaka close" id="kapanis">
+    <div class="vh"><div><p class="eyebrow">KAPANIŞ</p><h2>İki soru</h2><p class="who">İsteğe bağlı</p></div></div>
+    <div class="q"><label for="k1">Bugün hangi şikâyetle asıl meseleyi ayırabildin?</label><textarea id="k1" data-k="k1"></textarea></div>
+    <div class="q"><label for="k2">Benzer bir durumda deneyebileceğin tek küçük davranış ne?</label><textarea id="k2" data-k="k2"></textarea></div>
+  </section>
+
+  <section class="final" id="son">
+    <h2>Sonuçlarını al</h2>
+    <p id="summary">Henüz hiçbir vakayı doldurmadın.</p>
+    <button class="btn primary" id="copyBtn" type="button">Cevaplarımı ve promptu kopyala</button>
+    <p class="msg" id="copyMsg" role="status" aria-live="polite"></p>
+    <textarea id="fallback" readonly hidden aria-label="Kopyalanacak metin"></textarea>
+    <div class="row">
+      <button class="btn ghost" id="clearBtn" type="button">Cevaplarımı sil</button>
+    </div>
+    <div class="confirm" id="confirmBox" hidden>
+      <span>Bütün cevapların bu cihazdan silinecek. Emin misin?</span>
+      <button class="btn ghost" id="confirmYes" type="button">Evet, sil</button>
+      <button class="btn ghost" id="confirmNo" type="button">Vazgeç</button>
+    </div>
+  </section>
+</div>
+
+<footer class="wrap"><p style="margin-top:24px">Güncel Kafalar · Hayatın İçinden</p></footer>
+
+<script>
+const V = [
+{n:1,t:"Sunum bitti, mesele bitmedi",who:"Kendi ağzından",
+p:["Grup ödevinin en çok emek veren kişisinin ben olduğumu düşünüyorum. Başlangıçta görevleri eşit paylaşmıştık. İki arkadaşım kendi bölümlerini zamanında gönderdi; bir arkadaşımız gecikti. Teslime iki gün kala gelen bölümleri yeterince iyi bulmadım. Arkadaşlarım birlikte düzeltmeyi önerdi ama zaman kaybetmemek için çoğunu kendim değiştirdim. Değişiklikleri sunum sabahı gördüler.","Hocamız sunumdan sonra, kendi bölümünü iyi anlatan bir arkadaşımı özellikle tebrik etti. Benim yaptıklarım pek konuşulmadı. O günden beri gruptaki mesajlara geç cevap veriyorum.","Dün arkadaşım, “Benim hazırladığım örnekleri neden kaldırdın?” diye sordu. Önce verdiğim emeği görmesi gerektiğini söyledim. Bunun üzerine “Bir sonraki çalışmada kendi bölümlerimizi hazırlayıp son kontrolü birlikte yapalım” dedi. Bu öneriyi kabul etmedim. Notumuz düşük gelirse yine benim uğraşmam gerekeceğini düşünüyorum."],
+o:["Bir arkadaşın gecikmesi bütün işi riske attı ve yük ona kaldı.","Emeği görülmediği için kırıldı ve bunu dile getiremiyor.","Hem işin nasıl yapılacağını hem emeğinin nasıl tanınacağını tek başına kontrol etmeye çalışıyor.","Grupta görevler ve son kontrol baştan net belirlenmemişti."],
+best:"c",okuma:"Birlikte üretmek yerine hem işin nasıl yapılacağını hem emeğin nasıl tanınacağını kontrol etmeye çalışma. Takdir ihtiyacı, ortak çalışma amacının önüne geçiyor gibi görünüyor. Emeğin görünmemesi de gerçek bir sorun olarak ayrıca ele alınmalı.",
+not:"Dayanağı, iki ayrı ortak çalışma önerisini de reddetmesi. (a) ve (d) gerçek koşullar ama tek başına açıklamıyor. (b) gerçek bir kırgınlık; ayrıca ele alınmalı.",ders:"Ene (birincil), Tenkit, Şefkat"},
+{n:2,t:"Benim için zaten çok geç",who:"Bir arkadaşının hikâyesi",
+p:["Bir arkadaşın bu dönem iki dersten kaldı. “Ben disiplinli biri değilim, başlasam da sürdüremiyorum” diyor. Geçen ay her gün sekiz saatlik program yapmış; üçüncü gün yetiştiremeyince bırakmış.","Birlikte kırk dakika çalışmayı önerdiğinde “Kırk dakikayla ne değişecek? Adam gibi çalışamayacaksam başlamanın anlamı yok” diyor. Fakat akşam üç saatini başarılı öğrencilerin çalışma videolarına ayırıyor. Ortak çalışmaya gelmiyor; arkadaşlarının yanında ne kadar geride olduğunu göreceklerini söylüyor.","Geçen yıl düzenli çalışıp geçtiği bir dersi hatırlatınca “O kolaydı” diye karşılık veriyor. Bazen “Nasip değilmiş, zorlamamak lazım” diyor; bazen de kendisine çok kızıyor. Sınavına on gün var. Notlarını açınca ilk düşündüğü şey hangi konudan başlayacağı değil, arkadaşlarının kendisinden ne kadar ileride olduğu."],
+o:["Temel konularda bilgi açığı büyümüş, nereden başlayacağını bilmiyor.","Çabayı ancak büyük ve kusursuzsa değerli sayıyor; küçük adımı küçümseyip hiç başlamıyor.","Başarılı arkadaşlarıyla kendini kıyaslamak onu yıpratıyor.","“Nasip değilmiş” diyerek sorumluluktan kaçıyor."],
+best:"b",okuma:"Çabayı ancak büyük ve kusursuz olursa değerli saymak; başarısızlık ihtimali karşısında işe başlamayı ertelemek. “Disiplinsizim” yargısı bu tutumu değişmez bir kimlik gibi sunuyor. Ancak temel eksikleri ve çalışma koşulları görülmeden bütün sorun düşünce biçimine yüklenemez.",
+not:"Kırk dakikayı küçümsemesi ile sekiz saatlik programı bırakması aynı ölçünün iki ucu. (c) yan problem. (a) metinde bilinmiyor. (d) “Nasip” sözü tek başına kaçış sayılmamalı.",ders:"Yeis (birincil), Sabır, Kader"},
+{n:3,t:"Herkese yetişiyorum, kendime kalmıyor",who:"Kendi ağzından",
+p:["Bir arkadaşımın sorunu olsa işimi bırakıp dinliyorum. Bazen yardım istemeden de ben teklif ediyorum. Geçen hafta taşınacağını söyleyen bir arkadaşıma bütün cumartesimi ayırdım. Aslında pazartesi teslim edeceğim işim vardı ama onu yalnız bırakmak istemedim.","Akşam “Çok teşekkür ederim” deyip başka arkadaşlarıyla yemeğe gitti. Bana da birlikte yemek yiyelim demesini beklemiştim. Eve dönünce “İşi bitince beni unuttu” diye düşündüm.","Başka bir arkadaşım, yalnızca bir belgeyi nereden alacağını sormuştu. Başvuruyu da onun yerine hazırladım. Sonra benden habersiz başka birinden fikir alınca kırıldım. Kendi işim gecikince kimse yardım etmedi. Bir arkadaşım “Bu hafta müsait değilim diyebilirdin” dedi. Bunu söylemek istediğim oluyor ama o zaman insanların beni eskisi kadar aramayacağından korkuyorum."],
+o:["Arkadaşları onun emeğine karşılık vermiyor.","Değer görmeyi ve yakınlığı, hep ihtiyaç duyulan kişi olmakla güvenceye almaya çalışıyor.","Zamanını planlayamıyor, kendi işlerini erteliyor.","Fazla iyi niyetli ve insanlar bunu kullanıyor."],
+best:"b",okuma:"Yakınlığı ve değer görmeyi sürekli ihtiyaç duyulan kişi olmakla güvenceye almaya çalışma. Bu okuma bütün yardım niyetini geçersiz kılmıyor; gerçek yardım ve emek var.",
+not:"Dayanağı, son cümledeki “eskisi kadar aramazlar” korkusu. (a) taşınan arkadaş yemek beklentisini bilmiyordu. (c) bir sonuç. (d) yardımı çoğu zaman kendisi genişletiyor.",ders:"Şefkat (birincil), Acz, Muhabbet"},
+{n:4,t:"Geleceğimi düşünüyorlar ama benim yerime",who:"Bir arkadaşının hikâyesi",
+p:["Bir arkadaşın başka şehirdeki altı haftalık bir staja kabul edildi. Ailesi güvenlik ve masraf nedeniyle karşı çıkıyor. Daha önce de tercihleri üzerine sert tartışmışlar. Arkadaşın, tepki göstereceklerini düşündüğü için kabul edildiğini son haftaya kadar saklamış.","Babası “Masrafı ve kalacağın yeri çıkar, konuşalım” demiş. Annesi ise “Sen bu işleri tek başına beceremezsin” diyerek konuşmayı kapatmış. Arkadaşın henüz konaklama, bütçe veya stajın sunduğu desteği araştırmamış. “Güvenseler bunları sormazlar” diyor.","Sen beraber bilgi toplamayı önerince “Önce gitmeme karışmayacaklarını söylesinler” diye cevap veriyor. Ailesi de sakladığı için artık daha çok kontrol etmek istiyor. Sana “Ya onların dediği hayatı yaşayacağım ya da hiçbir şey söylemeden gideceğim” dedi. Stajı neden istediğini anlatırken programın içeriğinden çok ailesine kendi kararını kabul ettirmekten söz ediyor."],
+o:["Ailesi ona güvenmiyor ve kararlarına fazla karışıyor.","Stajın uygun olup olmadığını değerlendirmek yerine kendi kararını ailesine kabul ettirmeye odaklanmış.","Masraf ve kalacak yer konusunda hiç hazırlık yapmamış.","Kabul haberini sakladığı için ailesinin güvenini kaybetti."],
+best:"b",okuma:"Staj kararının uygunluğunu değerlendirmek yerine özerkliğini karşı tarafa kabul ettirme mücadelesine odaklanma. Ailenin küçümseyici ve denetleyici tutumu da sorunu besliyor; yalnız gencin kusuru değil.",
+not:"Dayanağı, stajı anlatırken içerikten çok “kabul ettirmekten” söz etmesi. (a) kısmen doğru: annenin küçümseyici sözü gerçek, ama babanın somut sorusu güvensizlik değil. (c) ve (d) yan problemler.",ders:"Tefekkür (birincil), Ene, Sabır"},
+{n:5,t:"Dinleniyorum ama yüküm azalmıyor",who:"Kendi ağzından",
+p:["Son iki hafta derslerle bir etkinliğin hazırlığı üst üste geldi. Yorulduğum için hafta sonunu boşalttım. Cumartesi yürüyüş yaptım, arkadaşlarımla görüştüm ve erken uyudum. Pazar sabahı daha iyi hissediyordum.","Öğleden sonra kısa bir başvuru metni yazmam gerekiyordu. Dosyayı açtım; önceki başvurumun reddedildiğini hatırladım. Metni nasıl kuracağımı düşünürken biraz video izleyip dinlenmeye karar verdim. Akşam olduğunda başvuru hâlâ duruyordu.","Sonraki üç akşam da benzeri oldu. Başka işlerimi yapabiliyorum; özellikle bu dosyaya gelince “Şu an kendimi zorlamayayım” diyorum. Arkadaşım taslağı birlikte açmayı önerdi. “Kafam tam hazır olduğunda yazarım” dedim. Şimdi süre daraldı ve dosyayı görmek bile öncekinden daha çok sıkıyor. Bu yüzden yeniden dinlenmem gerektiğini düşünüyorum."],
+o:["Gerçekten yorgun ve daha fazla dinlenmeye ihtiyacı var.","Yeniden reddedilme ihtimalinden kaçınmayı dinlenmeyle karıştırıyor.","Zamanını ekran başında kaybediyor.","Başvuru metnini nasıl yazacağını bilmiyor."],
+best:"b",okuma:"İşi yaparken karşılaşacağı belirsizlik ve yeniden reddedilme ihtimalinden kaçınmayı dinlenmeyle karıştırma. Başlangıçtaki yorgunluk gerçekti ve dinlenme iyi gelmişti.",
+not:"Dayanağı, dinlendikten sonra başka işleri yapabilmesi ve sıkıntının yalnızca bu dosyada yoğunlaşması. (a) başlangıçta doğruydu. (c) bir sonuç. (d) metinde dayanağı yok.",ders:"Tenperverlik (birincil), Sabır, Acz"},
+{n:6,t:"Pişmanım; daha ne yapabilirim?",who:"Bir arkadaşının hikâyesi",
+p:["Bir arkadaşın, kendisine özel olarak anlatılan bir konuyu iki kişiye söylemiş. Konuşulan kişi bunu öğrenince kırıldığını ve bir süre görüşmek istemediğini belirtmiş. Arkadaşın yaptığına pişman; o günden beri buluşmalara gelmiyor. “Ben düzgün biri olsam bunu yapmazdım. Artık insanlara iyilik anlatmam sahte olur” diyor.","Konuyu anlattığı iki kişiden biri, başkasına da söylemeyi düşündüğünü yazmış. Arkadaşın mesajı görmüş ama cevap vermemiş: “Onlarla konuşursam yaptığım şey yeniden açılır.”","Zarar verdiği kişiye de henüz özür dilememiş. “Beni affetmeyecekse konuşmanın ne faydası var?” diye soruyor. Buna karşılık, sana her gün ne kadar kötü hissettiğini anlatıyor ve “Sence ben çok kötü biri miyim?” diye soruyor. Birlikte kısa bir özür hazırlamayı önerdiğinde, önce kendisini affedebilmesi gerektiğini söylüyor."],
+o:["Yaptığı hata gerçekten ağır ve affedilmeyebilir.","Pişmanlığını onarıma çevirmek yerine kendisi hakkındaki hükme takılı kalmış.","Çevresinden sürekli teselli bekliyor.","Özür dilemeye cesaret edemiyor."],
+best:"b",okuma:"Pişmanlığı onarıma dönüştürmek yerine kendi hakkındaki hükme takılı kalma; sorumluluk almayı iyi hissetme veya affedilme şartına bağlama.",
+not:"Dayanağı, yayılmayı durdurabilecek mesaja cevap vermemesi ve özrü affedilme şartına bağlaması. (a) affedilmek onun kontrolünde değil. (c) ve (d) bu tutumun belirtileri.",ders:"Tövbe (birincil), Emir ve yasaklar, Yeis"},
+{n:7,t:"Önce doğru telefonu almalıyım",who:"Kendi ağzından",
+p:["Telefonum günlük işlerimi görüyor. İçerik üretmek istediğim için daha iyi bir model almayı düşünüyorum. Biriktirdiğim para ya telefona ya da bir eğitimle önümüzdeki birkaç aylık temel giderlerime yetecek. Ailem beklememi söyleyince gelişmemi önemsemediklerini düşünüyorum.","Mevcut telefonumla iki video çektim. Birinde ses zayıftı. Arkadaşım kendi mikrofonunu ödünç verebileceğini söyledi; henüz almadım. Diğer videonun görüntüsü yeterliydi ama konuşmamı beğenmediğim için kurgusunu tamamlamadım.","Akşamları yeni telefonla çekilmiş içerikleri ve model karşılaştırmalarını izliyorum. Bir arkadaşım önce elimdekilerle üç içerik bitirmeyi önerdi. “Başlangıçta kötü görünürsem insanlar beni ciddiye almaz” dedim. Geçen gün çevremden biri aynı eski modelle bir video paylaşınca önce kusurlarına baktım; sonra videosunun ilgi görmesine canım sıkıldı."],
+o:["İçerik üretmek için gerçekten daha iyi bir cihaza ihtiyacı var.","Başlangıçta yetersiz görünme kaygısını araç eksikliği üzerinden çözmeye çalışıyor.","Ailesi onun gelişimini desteklemiyor.","Bütçesini planlamayı bilmiyor."],
+best:"b",okuma:"Başlangıçta yetersiz görünme ihtimalini araç eksikliği üzerinden çözmeye çalışma. Telefonun işleviyle saygınlık beklentisi karışıyor. Bu, hiçbir cihaz yükseltmesinin gerekmeyeceğini göstermez.",
+not:"Dayanağı, ödünç mikrofonu almaması ve “kötü görünürsem ciddiye almazlar” demesi. (a) dışlanmamalı ama henüz gösterilmedi. (c) ailenin “bekle” demesi gelişimini önemsemediği anlamına gelmiyor. (d) bir sonuç.",ders:"Zaruriyat (birincil), Tenperverlik, Gaye-i hayal"},
+{n:8,t:"Bu kadar emek verdim",who:"Bir arkadaşının hikâyesi",
+p:["Bir arkadaşın yakınlık hissettiği birine sık sık yardım ediyor. Karşı taraf iki hafta önce aynı duyguları hissetmediğini söylemiş. Arkadaşın sana, “O şu an zor bir dönemden geçiyor, zamanı değil” diyor.","Geçen hafta karşı taraf biraz mesafe istedi. Arkadaşın o akşam yazmadı ama ertesi gün ders notlarını gönderip “Bunları görünce seni düşündüm” dedi. Sonra da önemli bir işini halletmeyi teklif etti. Teklif reddedilince kırıldı.","“Bunca zamandır yanında olan benim, başkasına nasıl vakit ayırabiliyor?” diyor. Ardından bu düşüncesinden utanıp hiçbir beklentisi olmadığını söylüyor. Kendi arkadaşlarıyla iki planını, belki karşı taraftan mesaj gelir diye iptal etmiş. Sen bir süre iletişim kurmamasını önerince “İhtiyacı olduğunda yanında olmazsam sevgim gerçek değilmiş gibi olur” diye cevap veriyor."],
+o:["Karşı taraf zor bir dönemden geçiyor; zamanı gelince durum değişebilir.","Yakınlık isteğini, karşı tarafın açıkça söylediği tercihin önüne koyuyor.","Verdiği emeğin karşılığını göremediği için kırgın.","Kendi arkadaşlarını ve planlarını ihmal ediyor."],
+best:"b",okuma:"Yakınlık isteğini, karşı tarafın açık iradesinin önüne koyma. Sevgi ve yardım, bağı sürdürmenin gerekçesi hâline geliyor.",
+not:"Dayanağı, mesafe istendikten sonra not ve yardım üzerinden yeniden temas kurması. (a) onun yorumu; metinde verisi yok. (c) gerçek bir duygu. (d) bir sonuç.",ders:"Muhabbet (birincil), Acz, Sabır"},
+{n:9,t:"Dua ediyorum ama kapılar açılmıyor",who:"Kendi ağzından",
+p:["Yurt dışındaki bir programa kabul edilmek için uzun zamandır dua ediyorum. Dil sınavında iki kez istediğim puanı alamadım. “Bu kadar istedim, neden olmadı?” diye düşünüyorum; sonra böyle düşündüğüm için kendime kızıyorum.","Başvurulardan birinde belgeyi son güne bıraktığım için eksik göndermiştim. Dil çalışmasında da aynı yöntemi bir süre sürdüremedim. Şimdi sınavı yeniden planlamak bile ağır geliyor.","Bir arkadaşım, benzer eğitimi sunan başka bir program buldu. Koşulları bana daha uygun. Ama “Ben öbürünü istedim; başka bir şeye yönelirsem vazgeçmiş olurum” dedim. Bana bu programda en çok ne istediğimi sorduğunda, anlatılan eğitimden önce oraya kabul edildiğimi insanlara söylemeyi düşündüğümü fark ettim. Yine de oraya gidemezsem hayatımın geride kalacağı hissi geçmiyor."],
+o:["Hazırlıkta somut eksikler var; sonuç bundan etkilenmiş.","Duasının kabul edilmediğini düşünüp ümitsizliğe düşüyor.","Daha geniş amacını tek bir programa ve onun getireceği kabul görmeye bağlamış.","Alternatif program aslında daha uygun; onu seçmesi gerekiyor."],
+best:"c",okuma:"Daha geniş bir amacı tek bir programa ve onun sağlayacağı kabul görmeye bağlamak. Böylece araç, hayatın ilerlediğinin tek göstergesi hâline geliyor. Üzülmesi ve dua hakkında soru sorması tek başına sorun sayılmıyor.",
+not:"Dayanağı, alternatifi incelemeden reddetmesi ve kabul haberini insanlara söylemeyi öne alması. (a) gerçek; ayrıca düzeltilmeli. (b) üzülmek ve soru sormak inanç kusuru değil. (d) henüz karşılaştırılmadı.",ders:"Dua (birincil), Şer, Gaye-i hayal"},
+{n:11,t:"Ben söylemezsem işler bozulacak",who:"Kendi ağzından",
+p:["Yarı zamanlı çalıştığım kafede işler zaman zaman aksıyor. Görevler yazılı değil; gün sonunda kimin son kontrolü yapacağı da her zaman belli olmuyor. Ben aksaklıkları görünce uyarıyorum. Son zamanlarda çalışma arkadaşlarım sorunları bana geç haber veriyor.","Dün bir arkadaşımız haftalık menü panosunu hazırladı. Çalışanların mesaj grubunda beş eksik yazdım. “Bunları özelden söyleseydin daha rahat düzeltirdim” deyince, doğru söze alınmaması gerektiğini söyledim. Akşam pano düzeltilmiş olarak asıldı. Eksiklerin giderilmesine sevindim ama grupta benim uyarımın işe yaradığının söylenmemesine de takıldım. “Neyse ki söyledik” diye yeniden mesaj attım.","Geçen ay kendi geciktirdiğim bir iş hatırlatılınca o dönem yoğun olduğumu anlattım. Arkadaşımın da yoğun olabileceği söylenince “Herkesin bahanesi var” dedim. Birisi görev ve kontrol listesi önerdi. Önce herkesin sorumluluk duygusunun düzelmesi gerektiğini söyledim."],
+o:["İş yerinde görev ve kontrol düzeni yok; aksaklıklar bundan doğuyor.","Eksikleri doğru görüyor ama söyleme biçimi karşısındakini zorluyor.","Düzeltme görevi ile haklı ve gerekli kişi olarak görülme beklentisi birbirine karışmış.","Çalışma arkadaşları sorumluluklarını yeterince ciddiye almıyor."],
+best:"c",okuma:"Düzeltme göreviyle haklı ve gerekli kişi olarak görülme beklentisinin karışması. Buna ek olarak gerçek bir görev düzeni sorunu da var.",
+not:"Dayanağı, pano düzeldiği hâlde “Neyse ki söyledik” mesajına ihtiyaç duyması. (a) gerçek; ayrıca çözülmeli. (b) doğru ama yüzeyde kalıyor. (d) kendi gecikmesinde kullanmadığı bir ölçü.",ders:"Tenkit (birincil), Ene, Şefkat"},
+{n:12,t:"Asıl hayatım daha başlamadı",who:"Bir arkadaşının hikâyesi",
+p:["Bir arkadaşın bölümünü ve yaşadığı şehri geçici bir bekleme dönemi olarak görüyor. Şehirde alanıyla ilgili staj olanakları gerçekten sınırlı. Mezun olunca başka yere taşınmak, iyi bir iş bulmak ve çocuklara bilim atölyeleri düzenleyen bir proje kurmak istiyor.","Geçen hafta bir hoca, alanıyla ilgili küçük bir araştırmada yardım isteyebileceğini söylemiş. Arkadaşın “Bundan bir şey çıkmaz” diyerek görüşmeye gitmemiş. Bir komşusunun ortaokula giden iki çocuğuna fen ödevlerinde yardım etmesi önerilince, önce kendi hayatının düzene girmesi gerektiğini söylemiş.","Geçen ay kuzenine basit bir deney gösterirken zamanın nasıl geçtiğini anlamadığını hatırlıyorsun. Bunu söyleyince “Güzeldi ama bu benim geleceğimi çözmüyor” diyor. Başka şehirde okuyanların paylaşımlarını uzun uzun izliyor. Gelecek planlarını anlatırken heyecanlı; bugün ne yapabileceği konuşulunca “Şu dönem bir bitsin” diye karşılık veriyor."],
+o:["Şehirdeki imkânlar gerçekten sınırlı; başka yere gitmeden ilerleyemez.","Anlamlı işi ideal koşullara erteliyor; küçük adımı büyük hedefin bir parçası olarak göremiyor.","Başka şehirde okuyanlarla kendini kıyaslıyor.","Ne istediğini tam bilmiyor, hedefi belirsiz."],
+best:"b",okuma:"Hayata katılmayı ve anlamlı eylemi ideal koşulların gerçekleşmesine ertelemek; küçük adımı büyük hedefe hizmet edebilen bir parça olarak görememek. Bu, şehirdeki gerçek kısıtları yok saydırmaz.",
+not:"Dayanağı, hedefiyle uyumlu küçük işleri de reddetmesi. (a) gerçek bir kısıt ama tek başına açıklamıyor. (c) yan problem. (d) metne ters düşüyor; hedefi aslında net.",ders:"Gaye-i hayal (birincil), Ülfet, Fakr"}
+];
+const X = {
+1:{sem:"Tek başına yeniden düzenleme, ortak kontrol önerisini reddetme, gecikmiş cevaplarla kırgınlık gösterme; takdir edilmeyince geri bildirimi duymakta zorlanma.",komp:"İletişimi keserek tepki verme, başkalarının katkısını azaltma, kendi iş yükünü büyütme; bunlar “Her işi ben yapıyorum” kanaatini güçlendirebilir.",ted:"Yeni bir suçlama mesajı göndermeden somut bir konuşma istemek; konuşmadan yapılan değişikliklerin sorumluluğunu almak ve görünmeyen emeği ayrıca anlatmak."},
+2:{sem:"Küçük adımı küçümseme, aşırı hedef koyma, kıyas, çalışmaktan ve birlikte öğrenmekten kaçınma; olumlu örneği geçersiz sayma.",komp:"Kıyas ve yardım istemekten utanma. Döngü: büyük başarı beklentisi → ağır program → aksama → tamamen bırakma → açığın büyümesi → kendini yetersiz sayma.",ted:"Bir arkadaşıyla tek konu seçip kısa bir çalışma yapmak; hedefi her şeyi yetiştirmek değil, neyi bilmediğini somutlaştırmak olarak koymak."},
+3:{sem:"Talebin ötesinde sorumluluk üstlenme, kendi işini erteleme, söylenmeyen karşılık bekleme, sınır koyunca ilişkiyi kaybetmekten korkma.",komp:"Sınır koyamama, yorgunluk, örtük borçluluk beklentisi ve kırgınlık. Döngü: kaybetme korkusu → fazla yardım → ihmal edilen işler → karşılık bekleme → kırgınlık → yeniden değer kazanmak için yardım.",ted:"Yeni bir yük almadan kendi teslim işine zaman ayırmak; bir yardım teklifini açık bir süre veya görevle sınırlamak."},
+4:{sem:"Bilgi saklama, iki uçlu seçenek kurma, hazırlığı onay şartına bağlama, bütün soruları güvensizlik sayma.",komp:"Güven kaybı, belirsiz bütçe, sert iletişim ve karşılıklı inat. Döngü: tepki beklentisi → saklama → güven kaybı → daha çok kontrol → daha çok saklama.",ted:"Kabul tarihini, kalacak yeri, bütçeyi ve stajın desteğini öğrenmek; kişiliği tartışmak yerine somut kararı konuşacak bir zaman belirlemek."},
+5:{sem:"Belirli işi erteleme, hazır hissetmeyi bekleme, ekranla geçici rahatlama, son tarih yaklaştıkça artan sıkıntı.",komp:"Döngü: başvuru sıkıntısı → videoyla rahatlama → zaman kaybı → daha büyük baskı → yeniden kaçınma.",ted:"Başvurunun yalnızca sorularını ve tarihini açmak; bir arkadaşla kısa sürede kusurlu bir ilk taslak çıkarmak."},
+6:{sem:"Kendisini bütünüyle kötü sayma, geri çekilme, teselli arama, özürden ve zararı durdurmaktan kaçınma.",komp:"Kusursuz görünme ihtiyacı ve karşı tarafın ihtiyacını geri plana atma. Döngü: hata → bütün kişiliği mahkûm etme → yüzleşmeden kaçınma → onarılmayan zarar → daha fazla suçluluk.",ted:"Bilgiyi paylaştığı kişilere yaymamalarını söylemek; zarar görenin mesafe isteğini ihlal etmeden kısa ve mazeretsiz bir özür için uygun yolu değerlendirmek."},
+7:{sem:"Araştırmayı uzatma, üretimi erteleme, kötü görünmekten çekinme, başkasının içeriğini küçümseme ve aileye savunmacı tepki.",komp:"Kıyas, aileyle gerilim ve bütçeyi amaca göre sıralayamama. Döngü: yetersiz görünme korkusu → araç araştırma → üretmeme → deneyim kazanamama → daha iyi araç gerektiğine inanma.",ted:"Ödünç mikrofonla mevcut videolardan birini tamamlamak; satın alma kararından önce teknik engeli somut denemeyle görmek."},
+8:{sem:"Mesaj bekleme, kendi planlarını iptal etme, yardımla temas kurma, karşılık beklediği hâlde beklentiyi reddetme.",komp:"Kendi düzenini ihmal, kırgınlık ve beklentiyi kabul edememe. Döngü: kaybetme korkusu → temas için yardım → karşılık bekleme → reddedilme → daha çok temas arama.",ted:"Mesafe isteğine uymak; yardım, hediye veya ortak arkadaş üzerinden yeni temas üretmemek."},
+9:{sem:"Alternatifi reddetme, yeniden çalışmaktan kaçınma, sonucu hayatının değeriyle ilişkilendirme, kendi üzüntüsüne kızma.",komp:"Hazırlık eksikleri, ümitsizlik ve yeni başarısızlıktan kaçınma. Döngü: tek sonuca bağlanma → yüksek baskı → dağınık çaba ve kaçınma → sonuç alamama → geleceği daha kapalı görme.",ted:"İstenen eğitimin hangi ihtiyacı karşıladığını yazmak ve bir başvurudaki kontrol edilebilir eksikleri belirlemek."},
+11:{sem:"Grup önünde eleştirme, kendine farklı ölçü uygulama, düzeltmeden sonra haklılığını yeniden vurgulama, süreç önerisini küçümseme.",komp:"Savunmacı iletişim, çifte standart ve haber saklama. Döngü: aksaklık → sert uyarı → erken haber vermekten çekinme → geç öğrenilen büyük aksaklık → daha sert uyarı.",ted:"Pano konuşmasındaki üslubun sorumluluğunu almak; işin sahibine kalan somut bir ihtiyaç olup olmadığını sormak."},
+12:{sem:"Küçük fırsatları reddetme, bugünü bekleme sayma, kıyas ve gelecekteki koşullara aşırı anlam yükleme.",komp:"Kıyas, deneyim kazanmama ve büyük hedefi başlangıç şartına dönüştürme. Döngü: ideal gelecek → bugünü küçümseme → adım atmama → beceri ve çevre gelişmemesi → geleceğin daha uzak görünmesi.",ted:"Hocadan görüşme istemek veya komşunun çocuklarına kısa bir fen ödevi desteği vermek; ikisini birden yeni bir büyük projeye çevirmemek."}
+};
+const L = ["a","b","c","d"];
+const KEY = "hayatin-icinden-defter-v1";
+let store = {};
+let canStore = true;
+
+function load(){
+  try{ const raw = localStorage.getItem(KEY); store = raw ? JSON.parse(raw) : {}; }
+  catch(e){ canStore = false; store = {}; }
+  if(!store || typeof store !== "object") store = {};
+}
+let saveT = null;
+function save(){
+  clearTimeout(saveT);
+  saveT = setTimeout(function(){
+    try{ localStorage.setItem(KEY, JSON.stringify(store)); }
+    catch(e){ if(canStore){ canStore = false; document.getElementById("storeNote").hidden = false; } }
+  }, 250);
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function render(){
+  const idx = document.getElementById("index");
+  const main = document.getElementById("vakalar");
+  let ih = "", mh = "";
+  V.forEach(v => {
+    ih += `<a href="#vaka-${v.n}" id="ix-${v.n}" aria-label="Vaka ${v.n}">${v.n}</a>`;
+    const opts = v.o.map((o,i) => `<label class="opt"><input type="radio" name="s${v.n}" value="${L[i]}" data-k="${v.n}-s"><span class="l">${L[i]}</span><span>${esc(o)}</span></label>`).join("");
+    mh += `<section class="vaka" id="vaka-${v.n}">
+      <div class="vh"><span class="kd">${v.n}</span><div><h2>${esc(v.t)}</h2><p class="who">${esc(v.who)}</p></div><span class="state" id="st-${v.n}">Boş</span></div>
+      <details class="text"><summary>Vakayı oku</summary><div class="story">${v.p.map(x=>`<p>${esc(x)}</p>`).join("")}</div></details>
+      <div class="q"><label for="m-${v.n}">Semptomlar <span class="hint">Metinde hangi düşünce, duygu ve davranışları görüyorsun?</span></label><textarea id="m-${v.n}" data-k="${v.n}-m"></textarea></div>
+      <div class="q" role="radiogroup" aria-labelledby="lq-${v.n}"><p class="lbl" id="lq-${v.n}">Teşhis: Bu vakada kök hastalık hangisi? <span class="hint">Diğer şıklar semptom, komplikasyon ya da gerçek bir koşul olabilir.</span></p><div class="opts">${opts}</div></div>
+      <div class="q"><label for="n-${v.n}">Teşhisinin dayanağı <span class="hint">Neden bu şık? Metinde hangi ayrıntı?</span></label><textarea id="n-${v.n}" data-k="${v.n}-n"></textarea></div>
+      <div class="q"><label for="r-${v.n}">Reçete ve tedavi <span class="hint">Hangi ders ilaç olur? Bu kişiye ilk ne söylerdin, ilk adımı ne olmalı?</span></label><textarea id="r-${v.n}" data-k="${v.n}-r"></textarea></div>
+      <div class="q optional"><label for="p-${v.n}">Bu vakada kendinden bir parça buldun mu? Nerede? <span class="hint">İsteğe bağlı. Sadece sen göreceksin.</span></label><textarea id="p-${v.n}" data-k="${v.n}-p"></textarea></div>
+    </section>`;
+  });
+  idx.innerHTML = ih + `<span class="count" id="count">0 / ${V.length}</span>`;
+  main.innerHTML = mh;
+}
+
+function filled(n){
+  return ["s","m","n","r","i","p"].some(f => (store[n+"-"+f]||"").trim() !== "");
+}
+function refresh(){
+  let c = 0;
+  V.forEach(v => {
+    const f = filled(v.n); if(f) c++;
+    const st = document.getElementById("st-"+v.n);
+    st.textContent = f ? "Dolduruldu" : "Boş"; st.classList.toggle("done", f);
+    document.getElementById("ix-"+v.n).classList.toggle("done", f);
+  });
+  document.getElementById("count").textContent = c + " / " + V.length;
+  document.getElementById("summary").textContent = c === 0
+    ? "Henüz hiçbir vakayı doldurmadın. En az bir vaka doldurunca tuş çalışır."
+    : c + " vaka doldurdun. Tuşa bas, kopyalanan metni kendi kullandığın yapay zekâya (ChatGPT, Gemini, Claude…) yapıştır.";
+}
+
+function bind(){
+  document.querySelectorAll("[data-k]").forEach(el => {
+    const k = el.dataset.k;
+    if(el.type === "radio"){ if(store[k] === el.value) el.checked = true; el.addEventListener("change", () => { store[k] = el.value; save(); refresh(); }); }
+    else { if(store[k]) el.value = store[k]; el.addEventListener("input", () => { store[k] = el.value; save(); refresh(); }); }
+  });
+}
+
+const PROMPT_HEAD = `Sen deneyimli, sıcak ve dürüst bir hekim-hocasın. Tıp fakültesinde öğrencilerinin vaka analizlerini değerlendiren bir hoca gibi düşün; ama burada mesele bedende değil, gündelik hayatın içindeki davranış ve tutumlarda. Aşağıda bir genç, “Hayatın İçinden” adlı bir atölyede okuduğu vakaları bir hekim gibi çözümlemeye çalıştı. Vakalar başka insanların hikâyeleri; ama bir insanın başkasının hikâyesini nasıl okuduğu, kendi bakışı hakkında da bir şey söyler. Senden bu çözümlemeleri dikkatle okuyup bu kişiye özel, derli toplu bir değerlendirme yazmanı istiyorum.
+
+## Bağlam
+- Atölye, bir gençlik topluluğunun haftalık derslerinde işlenen kavramların gündelik hayatta nasıl göründüğünü konuşmak için yapıldı. Kavramlar: acz, fakr, şefkat, tefekkür, ene, muhabbet, şer, tövbe, kader, dua, emir ve yasaklar, zaruriyat, ülfet, yeis, gaye-i hayal, sabır, tenkit, tenperverlik. Bu kavramlar İslami düşünce geleneğinden (özellikle Risale-i Nur) geliyor ve derslerde modern psikolojiyle birlikte, sorgulayıcı bir dille ele alınıyor.
+- Tıbbi dil bir benzetmedir: “semptom” görünen düşünce, duygu ve davranış; “kök hastalık” vakadaki asıl mesele; “komplikasyon” ondan doğan yan problemler ve kısır döngü; “reçete” derslerden gelen bakış ve uygulama; “tedavi” ilk adım ve süreç. Kimseye, ne vakadaki insanlara ne de bu gence, gerçek bir tanı konmaz.
+- Her vakada kişi şunları yazdı: (1) Semptomlar, (2) Teşhis: kök hastalık olarak dört şıktan birini seçti, (3) Teşhisinin dayanağı, (4) Reçete ve tedavi, (5) isteğe bağlı olarak vakada kendinden bir parça. Bazı alanları ya da vakaları boş bırakmış olabilir.
+- Şıkların bazısı semptom, bazısı komplikasyon, bazısı gerçek bir koşul; hepsinin metinde bir dayanağı var. Her vaka için atölyenin vaka analizi aşağıda referans olarak verildi. Bu bir cevap anahtarı değil, karşılaştırma için bir referans.
+
+## Nasıl değerlendireceksin
+1. Semptom tespiti: Gördüklerini metindeki somut davranışlara mı dayandırıyor, yoksa yorumu gözlem gibi mi yazıyor? Önemli semptomları atlamış mı?
+2. Teşhis: Kök hastalığı semptomdan ve komplikasyondan ayırabiliyor mu? Gerekçesi metindeki bir ayrıntıya dayanıyor mu? Başka bir açıklama ihtimalini (ayırıcı tanıyı) düşünmüş mü?
+3. Etiket mi, anlayış mı: Vakadaki kişiyi bir kavramla ya da sıfatla hızla mı adlandırıyor (“bu ene”, “tembel” gibi), yoksa davranışı ve koşulu mu anlatıyor? Gerçek koşulları ve haksızlıkları da görüyor mu?
+4. Reçete: Seçtiği ders, teşhis ettiği meseleye gerçekten ilaç mı? Ders adı vermekle mi yetiniyor, yoksa dersin hangi davranışı nasıl değiştireceğini söylüyor mu?
+5. Tedavi: İlk adım somut, uygulanabilir ve karşısındakini küçültmeyen bir şey mi? Önerisinin yan etkisi olabilir mi (sert nasihat, suçlama, etiketleme, sorunu büyütme)?
+6. Kendine dönüş: “Kendinden bir parça” alanını doldurduysa, vakayla kendi hayatı arasında nasıl bir bağ kuruyor? Bu alan en değerli kısımdır; dikkatle ve özenle ele al.
+7. Desen: Birden fazla vaka doldurduysa cevaplarda tekrar eden bir eğilim var mı? Örneğin hep dış koşulları teşhis etmek, hep kişiyi sorumlu tutmak, hep aynı ilacı yazmak, hep hazır çözüm vermek ya da hiç kendine dönmemek.
+
+## Kurallar
+- Her tespitini kişinin kendi cümlesinden kısa bir alıntıyla destekle. Alıntıyla gösteremediğin bir şeyi söyleme.
+- Tıbbi benzetmeyi değerlendirmenin dilinde kullanabilirsin; ama bu gence ya da vakadaki insanlara gerçek bir tanı koyma, kişilik etiketi yapıştırma, psikolojik bozukluk adı kullanma.
+- Atölyenin teşhisinden farklı bir şık seçmek hata değildir. “Yanlış” deme; kişinin teşhisinin neyi gördüğünü ve neyi gözden kaçırmış olabileceğini nazikçe göster. Aynı şıkkı seçtiyse de gerekçesinin ne kadar sağlam olduğuna bak.
+- Cevaplar kısa ya da azsa abartılı yorum yapma; “Bu konuda bir şey söylemek için yeterli cevap yok” de.
+- Boş bırakılan vakaları ve alanları eksik sayma, eleştirme, sorma.
+- Dinî kavramları kesin hüküm gibi değil, uygulama sorusu olarak kullan. “Kesin hayırlısı budur” gibi ilahi maksat açıklamaları yapma.
+- Övgü ile eleştiriyi dengeli kur; yalnızca iltifat etme, yalnızca kusur da arama. Genel ve herkese uyacak cümlelerden kaçın.
+- Kişinin kendi hayatına dair yazdıklarında ciddi bir sıkıntı ya da güvenlik riski görürsen değerlendirmeyi kısa tut ve güvendiği biriyle ya da bir uzmanla konuşmasını nazikçe öner.
+- Türkçe, sıcak, sade ve doğrudan yaz. “Sen” diye hitap et.
+
+## Çıktının yapısı
+1. Kısa giriş (2–3 cümle): bir hekim olarak genel tarzın.
+2. Vaka vaka değerlendirme: doldurulan her vaka için üç kısa başlık: Semptom tespitin, Teşhisin, Reçeten ve tedavin (her biri 1–2 cümle).
+3. Tekrar eden eğilimler: birden fazla vaka varsa en fazla üç madde, her biri alıntıyla.
+4. Güçlü yanların: 2–3 madde.
+5. Kör noktaların: 2–3 madde, yargılamadan.
+6. Senin için reçete: önümüzdeki hafta deneyebileceğin tek, somut ve küçük bir davranış.
+7. Kontrol muayenesi: kendi kendine düşünmen için iki açık soru.
+Toplam uzunluk 500–900 kelime olsun; az vaka doldurulduysa daha kısa yaz.
+
+# Vakalar ve cevaplar
+`;
+
+function buildText(){
+  let out = PROMPT_HEAD;
+  V.forEach(v => {
+    if(!filled(v.n)) return;
+    const g = f => (store[v.n+"-"+f]||"").trim();
+    const s = g("s");
+    out += `\n## Vaka ${v.n} · ${v.t}\n${v.who === "Kendi ağzından" ? "(Vakadaki kişi kendi ağzından anlatıyor.)" : "(Vaka, okuyanın bir arkadaşının hikâyesi olarak anlatılıyor.)"}\n\n${v.p.join("\n\n")}\n\n`;
+    out += `Şıklar:\n${v.o.map((o,i)=>`${L[i]}) ${o}`).join("\n")}\n\n`;
+    const x = X[v.n] || {};
+    out += `ATÖLYENİN VAKA ANALİZİ (referans)\n- Semptomlar: ${x.sem}\n- Kök hastalık (en güçlü okuma: ${v.best}): ${v.okuma}\n- Şıklar hakkında: ${v.not}\n- Komplikasyonlar: ${x.komp}\n- Reçete (dersler): ${v.ders}\n- İlk müdahale: ${x.ted}\n\n`;
+    out += `KİŞİNİN ÇÖZÜMLEMESİ\n`;
+    out += `- Semptomlar: ${g("m") || "(boş bıraktı)"}\n`;
+    out += `- Teşhis (kök hastalık): ${s ? `(${s}) ${v.o[L.indexOf(s)]}` : "(seçmedi)"}\n`;
+    out += `- Teşhisinin dayanağı: ${g("n") || "(boş bıraktı)"}\n`;
+    out += `- Reçete ve tedavi: ${g("r") || g("i") || "(boş bıraktı)"}\n`;
+    out += `- Kendinden bir parça: ${g("p") || "(boş bıraktı)"}\n`;
+  });
+  const k1 = (store.k1||"").trim(), k2 = (store.k2||"").trim();
+  if(k1 || k2){
+    out += `\n## Kapanış\n- Bugün hangi şikâyetle asıl meseleyi ayırabildin? ${k1 || "(boş bıraktı)"}\n- Benzer bir durumda deneyebileceğin tek küçük davranış ne? ${k2 || "(boş bıraktı)"}\n`;
+  }
+  out += `\nŞimdi yukarıdaki talimatlara göre değerlendirmeni yaz.`;
+  return out;
+}
+
+function showFallback(text, note){
+  const fb = document.getElementById("fallback");
+  fb.hidden = false; fb.value = text;
+  try{ fb.focus(); fb.select(); fb.setSelectionRange(0, text.length); }catch(e){}
+  document.getElementById("copyMsg").textContent = note;
+}
+
+function setup(){
+  document.getElementById("copyBtn").addEventListener("click", () => {
+    const msg = document.getElementById("copyMsg");
+    if(!V.some(v => filled(v.n))){ msg.textContent = "Önce en az bir vakayı doldur."; return; }
+    const text = buildText();
+    const done = () => { msg.textContent = "Kopyalandı. Şimdi kendi yapay zekânı aç ve yapıştır."; document.getElementById("fallback").hidden = true; };
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(() => {
+          let ok = false;
+          try{ const ta = document.getElementById("fallback"); ta.hidden = false; ta.value = text; ta.select(); ok = document.execCommand("copy"); }catch(e){}
+          if(ok) done(); else showFallback(text, "Otomatik kopyalama çalışmadı. Aşağıdaki metnin tamamını seçip kopyala.");
+        });
+      } else {
+        let ok = false;
+        try{ const ta = document.getElementById("fallback"); ta.hidden = false; ta.value = text; ta.select(); ok = document.execCommand("copy"); }catch(e){}
+        if(ok) done(); else showFallback(text, "Otomatik kopyalama çalışmadı. Aşağıdaki metnin tamamını seçip kopyala.");
+      }
+    }catch(e){ showFallback(text, "Otomatik kopyalama çalışmadı. Aşağıdaki metnin tamamını seçip kopyala."); }
+  });
+  const box = document.getElementById("confirmBox");
+  document.getElementById("clearBtn").addEventListener("click", () => { box.hidden = false; });
+  document.getElementById("confirmNo").addEventListener("click", () => { box.hidden = true; });
+  document.getElementById("confirmYes").addEventListener("click", () => {
+    store = {}; try{ localStorage.removeItem(KEY); }catch(e){}
+    document.querySelectorAll("[data-k]").forEach(el => { if(el.type === "radio") el.checked = false; else el.value = ""; });
+    box.hidden = true; document.getElementById("fallback").hidden = true;
+    document.getElementById("copyMsg").textContent = "Cevapların silindi.";
+    refresh();
+  });
+}
+
+load();
+if(!canStore) document.getElementById("storeNote").hidden = false;
+render(); bind(); refresh(); setup();
+</script>
